@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import Layout from '../../components/Layout/Layout'
-import CreateStudyLoadModal from './CreateStudyLoadModal'
 import { CustomSearch } from '../../components/UI/CustomSearch'
 import { CustomSelect } from '../../components/UI/CustomSelect'
-import StudyLoadsTable from './StudyLoadsTable'
+import SubjectsTable from './SubjectsTable'
+import CreateSubjectsModal from './CreateSubjectsModal'
 
-const StudyLoadsPage = () => {
+const SubjectsPage = () => {
 	const [isCreateModalOpen, setCreateModalOpen] = useState(false)
 
 	const handleCreateStudyLoad = () => {
 		setCreateModalOpen(false)
 	}
-
 	return (
 		<>
 			<Layout>
@@ -25,10 +24,9 @@ const StudyLoadsPage = () => {
 					</button>
 					<CustomSelect />
 				</div>
-				<StudyLoadsTable />
+				<SubjectsTable />
 			</Layout>
-
-			<CreateStudyLoadModal
+			<CreateSubjectsModal
 				isOpen={isCreateModalOpen}
 				onClose={() => setCreateModalOpen(false)}
 				onCreate={handleCreateStudyLoad}
@@ -37,4 +35,4 @@ const StudyLoadsPage = () => {
 	)
 }
 
-export default StudyLoadsPage
+export default SubjectsPage

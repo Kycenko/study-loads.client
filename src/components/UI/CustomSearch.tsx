@@ -1,17 +1,18 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import { Input } from '@material-tailwind/react'
-import { SetStateAction, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useAppDispatch } from '../../hooks/store.hooks'
 import { setSearch } from '../../store/slices/filters.slice'
 
 export function CustomSearch() {
 	const dispatch = useAppDispatch()
+
 	const [searchValue, setSearchValue] = useState('')
 	const handleSearch = () => {
 		dispatch(setSearch(searchValue))
 	}
 
-	const handleKeyPress = (e: { key: string }) => {
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
 			handleSearch()
 		}
@@ -22,7 +23,7 @@ export function CustomSearch() {
 		}
 	}, [searchValue, dispatch])
 
-	const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value)
 	}
 

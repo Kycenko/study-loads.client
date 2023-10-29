@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import {
 	Card,
 	Typography,
@@ -10,22 +10,27 @@ import {
 } from '@material-tailwind/react'
 
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { Link } from 'react-router-dom'
 
 export function SideBar() {
 	const [open, setOpen] = React.useState(0)
 
-	const handleOpen = (value: React.SetStateAction<number>) => {
+	const handleOpen = (value: SetStateAction<number>) => {
 		setOpen(open === value ? 0 : value)
 	}
 
 	return (
-		<Card className='h-screen w-full max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5'>
+		<Card className='h-screen w-full max-w-[250px] p-4 shadow-xl shadow-blue-gray-900/5'>
 			<div className='mb-2 p-4'>
 				<Typography variant='h5' color='blue-gray'>
 					База данных
 				</Typography>
 			</div>
 			<List>
+				<Link to='/'>
+					<ListItem>Нагрузка</ListItem>
+				</Link>
+
 				<Accordion
 					open={open === 1}
 					icon={
@@ -43,17 +48,19 @@ export function SideBar() {
 							className='border-b-0 p-3'
 						>
 							<Typography color='blue-gray' className='mr-auto font-normal'>
-								Нагрузка
+								Другие таблицы
 							</Typography>
 						</AccordionHeader>
 					</ListItem>
 					<AccordionBody className='py-1'>
 						<List className='p-0'>
-							<ListItem>Предметы</ListItem>
-							<ListItem>Специальность</ListItem>
-							<ListItem>Ученая степень</ListItem>
-							<ListItem>Преподаватели</ListItem>
 							<ListItem>Группы</ListItem>
+							<Link to='/subjects'>
+								<ListItem>Предметы</ListItem>
+							</Link>
+							<ListItem>Преподаватели</ListItem>
+							<ListItem>Ученая степень</ListItem>
+							<ListItem>Специальность</ListItem>
 						</List>
 					</AccordionBody>
 				</Accordion>

@@ -8,6 +8,14 @@ import {
 	Teacher,
 } from '../types/types'
 import { FiltersStateType } from './slices/filters.slice'
+import {
+	CreateStudyLoadRequest,
+	CreateStudyLoadResponse,
+	CreateSubjectResponse,
+	CreatesSubjectRequest,
+	UpdateSubjectRequest,
+	UpdateSubjectResponse,
+} from './api.types'
 
 export const CRUDApi = createApi({
 	reducerPath: 'CRUDApi',
@@ -28,9 +36,42 @@ export const CRUDApi = createApi({
 		}),
 
 		//Subjects
-		getAllSubjects: builder.query<Subject[], void>({
-			query: () => 'subjects',
+		getAllSubjects: builder.query<Subject[], FiltersStateType>({
+			query: body => {
+				let url = 'subjects'
+				let params = new URLSearchParams()
+				if (body.search) {
+					params.append('name', body.search)
+				}
+				if (body.orderBy) {
+					params.append('orderBy', body.orderBy)
+				}
+				return `${url}?${params.toString()}`
+			},
 			providesTags: ['Subject'],
+		}),
+		getSubjectById: builder.query<Subject, number>({
+			query: (id: number) => `subjects/${id}`,
+			providesTags: ['Subject'],
+		}),
+		addSubject: builder.mutation<CreatesSubjectRequest, CreateSubjectResponse>({
+			query: body => ({
+				url: 'subjects',
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['Subject'],
+		}),
+		updateSubject: builder.mutation<
+			UpdateSubjectRequest,
+			UpdateSubjectResponse
+		>({
+			query: body => ({
+				url: 'subjects',
+				method: 'PATCH',
+				body,
+			}),
+			invalidatesTags: ['Subject'],
 		}),
 		deleteSubject: builder.mutation<number, number>({
 			query: id => ({
@@ -71,15 +112,38 @@ export const CRUDApi = createApi({
 			},
 			providesTags: ['StudyLoad'],
 		}),
+		addStudyLoad: builder.mutation<
+			CreateStudyLoadRequest,
+			CreateStudyLoadResponse
+		>({
+			query: body => ({
+				url: 'study-loads',
+				method: 'POST',
+				body,
+			}),
+			invalidatesTags: ['StudyLoad'],
+		}),
+		deleteStudyLoads: builder.mutation<number, number>({
+			query: id => ({
+				url: `study-loads/${id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['StudyLoad'],
+		}),
 	}),
 })
 
 export const {
 	useGetAllAcademicDegreesQuery,
 	useGetAllSubjectsQuery,
+	useGetSubjectByIdQuery,
+	useAddSubjectMutation,
+	useUpdateSubjectMutation,
 	useDeleteSubjectMutation,
 	useGetAllSpecialitiesQuery,
 	useGetAllTeachersQuery,
 	useGetAllGroupsQuery,
 	useGetAllStudyLoadsQuery,
+	useAddStudyLoadMutation,
+	useDeleteStudyLoadsMutation,
 } = CRUDApi

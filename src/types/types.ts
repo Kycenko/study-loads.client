@@ -13,6 +13,7 @@ export type Group = {
 }
 
 export type StudyLoad = {
+	name: any
 	id: number
 	groupId: number
 	subjectId: number
