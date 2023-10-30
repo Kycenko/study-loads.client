@@ -1,40 +1,24 @@
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import {
 	useDeleteSubjectMutation,
 	useGetAllSubjectsQuery,
-} from '../../store/crud.api'
-import { Card, Typography } from '@material-tailwind/react'
-import { FiltersStateType } from '../../store/slices/filters.slice'
-import { subjectHead } from '../../components/utils/table.heads'
-import { useState } from 'react'
-import EditSubjectsModal from './EditSubjectsModal'
+} from '../../store/crud.api';
+import { Card, Typography } from '@material-tailwind/react';
+import { FiltersStateType } from '../../store/slices/filters.slice';
+import { subjectHead } from '../../components/utils/table.heads';
 
 type RootState = {
-	filters: FiltersStateType
-}
+	filters: FiltersStateType;
+};
 
 const SubjectsTable = () => {
-	const { search, orderBy } = useSelector((state: RootState) => state.filters)
+	const { search, orderBy } = useSelector((state: RootState) => state.filters);
 	const body = {
 		search: search ?? '',
 		orderBy: orderBy,
-	}
-	const { data = [] } = useGetAllSubjectsQuery(body)
-	const [deleteSubject] = useDeleteSubjectMutation()
-
-	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-
-	const handleEditModal = () => {
-		setIsEditModalOpen(false)
-	}
-	const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(
-		null
-	)
-
-	const handleEditClick = (subjectId: number) => {
-		setSelectedSubjectId(subjectId)
-		setIsEditModalOpen(true)
-	}
+	};
+	const { data = [] } = useGetAllSubjectsQuery(body);
+	const [deleteSubject] = useDeleteSubjectMutation();
 
 	return (
 		<>
@@ -63,7 +47,7 @@ const SubjectsTable = () => {
 								)
 								?.map(data => (
 									<tr key={data.id}>
-										<td className='p-4 border-b border-blue-gray-50'>
+										{/* <td className='p-4 border-b border-blue-gray-50'>
 											<Typography
 												variant='small'
 												color='blue-gray'
@@ -71,7 +55,7 @@ const SubjectsTable = () => {
 											>
 												{data.id}
 											</Typography>
-										</td>
+										</td> */}
 										<td className='p-4 border-b border-blue-gray-50'>
 											<Typography
 												variant='small'
@@ -97,7 +81,6 @@ const SubjectsTable = () => {
 												variant='small'
 												color='blue-gray'
 												className=' mb-2 border rounded-md  cursor-pointer'
-												onClick={() => handleEditClick(data.id)}
 											>
 												Изменить
 											</Typography>
@@ -117,15 +100,8 @@ const SubjectsTable = () => {
 					</table>
 				</div>
 			</Card>
-
-			<EditSubjectsModal
-				isOpen={isEditModalOpen}
-				onClose={() => setIsEditModalOpen(false)}
-				onUpdate={handleEditModal}
-				subjectId={selectedSubjectId}
-			/>
 		</>
-	)
-}
+	);
+};
 
-export default SubjectsTable
+export default SubjectsTable;

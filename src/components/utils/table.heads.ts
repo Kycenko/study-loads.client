@@ -8,6 +8,6 @@ export const studyLoadHeads = [
 	'Кол-во лекций',
 	'Кол-во ЛР',
 	'Действия',
-]
+];
 
-export const subjectHead = ['Id предмета', 'Название', 'Часы', 'Действия']
+export const subjectHead = ['Название', 'Часы', 'Действия'];

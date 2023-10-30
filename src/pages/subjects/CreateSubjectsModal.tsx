@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState } from 'react';
 import {
 	Button,
 	Dialog,
@@ -6,43 +6,46 @@ import {
 	CardBody,
 	CardFooter,
 	Typography,
-} from '@material-tailwind/react'
-import { useAddSubjectMutation } from '../../store/crud.api'
+} from '@material-tailwind/react';
+import { useAddSubjectMutation } from '../../store/crud.api';
 
 type SubjectData = {
-	name: string
-	hours: number
-}
+	name: string;
+	hours: number;
+};
 
 type CreateSubjectsModalProps = {
-	isOpen: boolean
-	onClose: () => void
-	onCreate: (newSubject: SubjectData) => void
-}
+	isOpen: boolean;
+	onClose: () => void;
+	onCreate: (newSubject: SubjectData) => void;
+};
 
 const CreateSubjectsModal = ({
 	isOpen,
 	onClose,
 	onCreate,
 }: CreateSubjectsModalProps) => {
-	const [name, setName] = useState<string>('')
-	const [hours, setHours] = useState<number | string>('')
-	const [addSubject] = useAddSubjectMutation()
+	const [name, setName] = useState<string>('');
+	const [hours, setHours] = useState<number | string>('');
+	const [addSubject] = useAddSubjectMutation();
 
 	const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
-		e.preventDefault()
+		e.preventDefault();
 		await addSubject({
 			name,
 			hours: Number(hours),
-		})
+		});
 
 		onCreate({
 			name,
 			hours: Number(hours),
-		})
+		});
 
-		onClose()
-	}
+		onClose();
+
+		setName('');
+		setHours('');
+	};
 
 	return (
 		<Dialog size='xs' open={isOpen} handler={onClose} className='shadow-none'>
@@ -81,7 +84,7 @@ const CreateSubjectsModal = ({
 				</CardBody>
 			</Card>
 		</Dialog>
-	)
-}
+	);
+};
 
-export default CreateSubjectsModal
+export default CreateSubjectsModal;

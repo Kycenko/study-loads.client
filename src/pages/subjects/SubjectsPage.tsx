@@ -1,16 +1,31 @@
-import { useState } from 'react'
-import Layout from '../../components/Layout/Layout'
-import { CustomSearch } from '../../components/UI/CustomSearch'
-import { CustomSelect } from '../../components/UI/CustomSelect'
-import SubjectsTable from './SubjectsTable'
-import CreateSubjectsModal from './CreateSubjectsModal'
+import Layout from '../../components/Layout/Layout';
+import { CustomSearch } from '../../components/UI/CustomSearch';
+
+import SubjectsTable from './SubjectsTable';
+import CreateSubjectsModal from './CreateSubjectsModal';
+import SubjectDiagramSelect from '../../components/UI/DiagramSelect';
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { useGetAllSubjectsQuery } from '../../store/crud.api';
+
+import { CustomSelect } from '../../components/UI/CustomSelect';
+import { useState } from 'react';
 
 const SubjectsPage = () => {
-	const [isCreateModalOpen, setCreateModalOpen] = useState(false)
+	const [isCreateModalOpen, setCreateModalOpen] = useState(false);
 
 	const handleCreateStudyLoad = () => {
-		setCreateModalOpen(false)
-	}
+		setCreateModalOpen(false);
+	};
+
+	const { search, orderBy } = useSelector((state: RootState) => state.filters);
+	const body = {
+		search: search ?? '',
+		orderBy: orderBy,
+	};
+	const { data = [] } = useGetAllSubjectsQuery(body);
+
 	return (
 		<>
 			<Layout>
@@ -22,8 +37,11 @@ const SubjectsPage = () => {
 					>
 						Создать запись
 					</button>
+
+					<SubjectDiagramSelect />
 					<CustomSelect />
 				</div>
+
 				<SubjectsTable />
 			</Layout>
 			<CreateSubjectsModal
@@ -32,7 +50,7 @@ const SubjectsPage = () => {
 				onCreate={handleCreateStudyLoad}
 			/>
 		</>
-	)
-}
+	);
+};
 
-export default SubjectsPage
+export default SubjectsPage;

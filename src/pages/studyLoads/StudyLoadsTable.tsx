@@ -1,24 +1,24 @@
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import {
 	useDeleteStudyLoadsMutation,
 	useGetAllStudyLoadsQuery,
-} from '../../store/crud.api'
-import { Card, Typography } from '@material-tailwind/react'
-import { FiltersStateType } from '../../store/slices/filters.slice'
-import { studyLoadHeads } from '../../components/utils/table.heads'
+} from '../../store/crud.api';
+import { Card, Typography } from '@material-tailwind/react';
+import { FiltersStateType } from '../../store/slices/filters.slice';
+import { studyLoadHeads } from '../../components/utils/table.heads';
 
 type RootState = {
-	filters: FiltersStateType
-}
+	filters: FiltersStateType;
+};
 
 const StudyLoadsTable = () => {
-	const { search, orderBy } = useSelector((state: RootState) => state.filters)
+	const { search, orderBy } = useSelector((state: RootState) => state.filters);
 	const body = {
 		search: search,
 		orderBy: orderBy,
-	}
-	const { data = [] } = useGetAllStudyLoadsQuery(body)
-	const [deleteStudyLoad] = useDeleteStudyLoadsMutation()
+	};
+	const { data = [] } = useGetAllStudyLoadsQuery(body);
+	const [deleteStudyLoad] = useDeleteStudyLoadsMutation();
 
 	return (
 		<Card className='w-full'>
@@ -140,7 +140,7 @@ const StudyLoadsTable = () => {
 				</table>
 			</div>
 		</Card>
-	)
-}
+	);
+};
 
-export default StudyLoadsTable
+export default StudyLoadsTable;
